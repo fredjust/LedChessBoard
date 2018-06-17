@@ -115,7 +115,6 @@ Public Class frmMain
                 Return wq
             Case "K"
                 Return wk
-
             Case "p"
                 Return bp
             Case "r"
@@ -128,7 +127,6 @@ Public Class frmMain
                 Return bq
             Case "k"
                 Return bk
-
             Case "1"
                 Return redCircle
             Case "2"
@@ -137,9 +135,8 @@ Public Class frmMain
                 Return blueCircle
             Case "4"
                 Return GreenCross
-
-
         End Select
+        Return Nothing
     End Function
 
     'retourne la position X de la case
@@ -263,8 +260,7 @@ Public Class frmMain
         Dim pNoirs As String = ""
 
         DiffMat(pBlancs, pNoirs)
-        lblBlancs.Text = ToBlackStr(pNoirs)
-        lblNoirs.Text = pBlancs
+       
 
     End Sub
 
@@ -354,17 +350,9 @@ Public Class frmMain
 
     Private Sub Form1_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         DrawPiece()
-        lblTimeNoirs.Top = lvMoves.Top
-        lblTimeNoirs.Left = lvMoves.Width - 20
+     
 
-        lblTimeBlancs.Top = lvMoves.Height - lblTimeBlancs.Height
-        lblTimeBlancs.Left = lvMoves.Width - 20
-
-        lblBlancs.Left = lvMoves.Width + 5
-        lblNoirs.Left = lvMoves.Width + 5
-
-        lblNoirs.Top = lblTimeNoirs.Top + lblTimeNoirs.Height
-        lblBlancs.Top = lblTimeBlancs.Top - lblBlancs.Height
+     
     End Sub
 
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -431,17 +419,7 @@ Public Class frmMain
                 Me.FormBorderStyle = Windows.Forms.FormBorderStyle.Sizable
         End Select
 
-        lblTimeNoirs.Top = lvMoves.Top
-        lblTimeNoirs.Left = lvMoves.Width - 20
-
-        lblTimeBlancs.Top = lvMoves.Height - lblTimeBlancs.Height
-        lblTimeBlancs.Left = lvMoves.Width - 20
-
-        lblBlancs.Left = lvMoves.Width + 5
-        lblNoirs.Left = lvMoves.Width + 5
-
-        lblNoirs.Top = lblTimeNoirs.Top + lblTimeNoirs.Height
-        lblBlancs.Top = lblTimeBlancs.Top - lblBlancs.Height
+      
 
 
     End Sub
@@ -751,24 +729,20 @@ err:
 
             TempsNoirs -= TempsCoup
             TempsNoirs += Increment
-            lblTimeBlancs.BackColor = Color.Silver
-            lblTimeNoirs.BackColor = Color.White
+         
         Else
             TempsBlancs -= TempsCoup
             TempsBlancs += Increment
-            lblTimeBlancs.BackColor = Color.White
-            lblTimeNoirs.BackColor = Color.Silver
+          
 
         End If
 
         If lvRec.Items.Count - FindLastGreenLine() > 30 Then
-            lblTimeBlancs.BackColor = Color.LightCoral
-            lblTimeNoirs.BackColor = Color.LightCoral
+           
         End If
 
 
-        lblTimeNoirs.Text = formatHMS(TempsNoirs, False)
-        lblTimeBlancs.Text = formatHMS(TempsBlancs, False)
+     
 
         If lvMoves.Items.Count > 10 Then lvMoves.Items(lvMoves.Items.Count - 1).EnsureVisible()
 
@@ -1350,7 +1324,7 @@ err:
     End Function
 
     'renvoie la dernière ligne de couleur verte
-    Private Function CancelLastGreenLine(Optional ByVal Nbligne As Byte = 1) As Integer
+    Private Sub CancelLastGreenLine(Optional ByVal Nbligne As Byte = 1)
         Dim findgreen As Byte = 0
         Dim i As Integer
         Dim LastGreenLine As UInteger
@@ -1374,15 +1348,15 @@ err:
         Next
 
 
-    End Function
+    End Sub
 
-    Private Function CancelAllMoves()
+    Private Sub CancelAllMoves()
         For i = 2 To lvRec.Items.Count - 1
             lvRec.Items(i).ForeColor = Color.White
             lvRec.Items(i).SubItems(lv_FEN).Text = ""
             lvRec.Items(i).SubItems(lv_Move).Text = ""
         Next
-    End Function
+    End Sub
 
 
     Private Function FindNextMove() As Boolean
@@ -1401,6 +1375,7 @@ err:
 
         ThePOS.onLive = False
         leboncoup = ""
+        lecoup = ""
         i = lvRec.Items.Count - 1 'nombre d'élément de la LV
 
 
@@ -2104,7 +2079,7 @@ ErrorHandler:
         'End If
 
 
-        If aRec = "" Then Exit Function
+        If aRec = "" Then Return ""
 
         theCol = aRec.Split(".") 'sépare les différents bytes
         strPos = ""
@@ -2214,6 +2189,8 @@ ErrorHandler:
                 Return strPos
             End If
         End If
+        'normalement on arrive jamais ici
+        Return ""
     End Function
 
     Private Sub AddRec(ByVal aRec As String)
@@ -2379,6 +2356,7 @@ err:
             menuSerialInit.Enabled = False
             menuSerialClose.Enabled = True
             TimerCoup.Enabled = True
+            CheckMoveToolStripMenuItem.Enabled = True
         Catch ex As Exception
             MsgBox("Erreur lors de l'ouverture du port")
         End Try
@@ -2437,6 +2415,7 @@ err:
         menuSerialInit.Enabled = True
         AttendreCoup = 0
         TimerCoup.Enabled = False
+        CheckMoveToolStripMenuItem.Enabled = True
     End Sub
 
     Private Sub SauvegarderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SauvegarderToolStripMenuItem.Click
@@ -2535,6 +2514,8 @@ err:
         End While
 
         My.Computer.FileSystem.WriteAllText("c:\GAME\game" & NumFile.ToString & ".pgn", strAllMoves, True)
+
+        MsgBox("Saved : " & "c:\GAME\game" & NumFile.ToString & ".pgn")
 
     End Sub
 

@@ -31,8 +31,6 @@ Partial Class frmMain
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.lblBlancs = New System.Windows.Forms.Label()
-        Me.lblNoirs = New System.Windows.Forms.Label()
         Me.lvMoves = New System.Windows.Forms.ListView()
         Me.chCoup = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.chWhite = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -46,8 +44,6 @@ Partial Class frmMain
         Me.LiScreenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckMoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lblTimeNoirs = New System.Windows.Forms.Label()
-        Me.lblTimeBlancs = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.lvRec = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -175,41 +171,15 @@ Partial Class frmMain
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.lblBlancs)
-        Me.TabPage1.Controls.Add(Me.lblNoirs)
         Me.TabPage1.Controls.Add(Me.lvMoves)
         Me.TabPage1.Controls.Add(Me.MenuStrip2)
-        Me.TabPage1.Controls.Add(Me.lblTimeNoirs)
-        Me.TabPage1.Controls.Add(Me.lblTimeBlancs)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(381, 462)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Formulaire"
         Me.TabPage1.UseVisualStyleBackColor = True
-        '
-        'lblBlancs
-        '
-        Me.lblBlancs.AutoSize = True
-        Me.lblBlancs.Font = New System.Drawing.Font("Chess Merida", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.lblBlancs.Location = New System.Drawing.Point(265, 260)
-        Me.lblBlancs.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblBlancs.Name = "lblBlancs"
-        Me.lblBlancs.Size = New System.Drawing.Size(68, 48)
-        Me.lblBlancs.TabIndex = 19
-        Me.lblBlancs.Text = " "
-        '
-        'lblNoirs
-        '
-        Me.lblNoirs.AutoSize = True
-        Me.lblNoirs.Font = New System.Drawing.Font("Chess Merida", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(2, Byte))
-        Me.lblNoirs.Location = New System.Drawing.Point(265, 171)
-        Me.lblNoirs.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblNoirs.Name = "lblNoirs"
-        Me.lblNoirs.Size = New System.Drawing.Size(68, 48)
-        Me.lblNoirs.TabIndex = 18
-        Me.lblNoirs.Text = " "
         '
         'lvMoves
         '
@@ -274,19 +244,19 @@ Partial Class frmMain
         'EditerToolStripMenuItem
         '
         Me.EditerToolStripMenuItem.Name = "EditerToolStripMenuItem"
-        Me.EditerToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.EditerToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.EditerToolStripMenuItem.Text = "Editer"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(115, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(149, 6)
         '
         'LiScreenToolStripMenuItem
         '
         Me.LiScreenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem, Me.CheckMoveToolStripMenuItem})
         Me.LiScreenToolStripMenuItem.Name = "LiScreenToolStripMenuItem"
-        Me.LiScreenToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.LiScreenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.LiScreenToolStripMenuItem.Text = "LiScreen"
         '
         'ConfigToolStripMenuItem
@@ -297,33 +267,10 @@ Partial Class frmMain
         '
         'CheckMoveToolStripMenuItem
         '
+        Me.CheckMoveToolStripMenuItem.Enabled = False
         Me.CheckMoveToolStripMenuItem.Name = "CheckMoveToolStripMenuItem"
-        Me.CheckMoveToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.CheckMoveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CheckMoveToolStripMenuItem.Text = "Check Move"
-        '
-        'lblTimeNoirs
-        '
-        Me.lblTimeNoirs.AutoSize = True
-        Me.lblTimeNoirs.BackColor = System.Drawing.Color.LightCoral
-        Me.lblTimeNoirs.Font = New System.Drawing.Font("DS-Digital", 108.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTimeNoirs.Location = New System.Drawing.Point(224, 26)
-        Me.lblTimeNoirs.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblTimeNoirs.Name = "lblTimeNoirs"
-        Me.lblTimeNoirs.Size = New System.Drawing.Size(352, 142)
-        Me.lblTimeNoirs.TabIndex = 16
-        Me.lblTimeNoirs.Text = "15:00"
-        '
-        'lblTimeBlancs
-        '
-        Me.lblTimeBlancs.AutoSize = True
-        Me.lblTimeBlancs.BackColor = System.Drawing.Color.Silver
-        Me.lblTimeBlancs.Font = New System.Drawing.Font("DS-Digital", 108.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTimeBlancs.Location = New System.Drawing.Point(242, 309)
-        Me.lblTimeBlancs.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.lblTimeBlancs.Name = "lblTimeBlancs"
-        Me.lblTimeBlancs.Size = New System.Drawing.Size(352, 142)
-        Me.lblTimeBlancs.TabIndex = 17
-        Me.lblTimeBlancs.Text = "15:00"
         '
         'TabPage2
         '
@@ -332,7 +279,7 @@ Partial Class frmMain
         Me.TabPage2.Controls.Add(Me.MenuStrip1)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(381, 462)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rec"
@@ -647,7 +594,7 @@ Partial Class frmMain
         '
         Me.menuSerialInit.Name = "menuSerialInit"
         Me.menuSerialInit.Size = New System.Drawing.Size(167, 22)
-        Me.menuSerialInit.Text = "Init COM5 115200"
+        Me.menuSerialInit.Text = "Init COM6 115200"
         '
         'ToolStripMenuItem2
         '
@@ -706,9 +653,6 @@ Partial Class frmMain
         Me.menuFlip.Name = "menuFlip"
         Me.menuFlip.Size = New System.Drawing.Size(133, 22)
         Me.menuFlip.Text = "Flip V"
-        '
-        'OpenFileDialog1
-        '
         '
         'cmenuLigne
         '
@@ -806,7 +750,7 @@ Partial Class frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1152, 530)
+        Me.ClientSize = New System.Drawing.Size(906, 507)
         Me.Controls.Add(Me.pbReduire)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.PictureBox1)
@@ -920,10 +864,6 @@ Partial Class frmMain
     Friend WithEvents menuH1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuH8 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuFlip As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblTimeNoirs As System.Windows.Forms.Label
-    Friend WithEvents lblTimeBlancs As System.Windows.Forms.Label
-    Friend WithEvents lblNoirs As System.Windows.Forms.Label
-    Friend WithEvents lblBlancs As System.Windows.Forms.Label
     Friend WithEvents EditerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents LiScreenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
