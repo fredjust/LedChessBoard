@@ -43,24 +43,25 @@ Public Class frmMain
 
 
 #Region "Les Images PNG"
+    'White pieces
     Dim wp As New Bitmap(My.Resources.wp)
     Dim wr As New Bitmap(My.Resources.wr)
     Dim wn As New Bitmap(My.Resources.wn)
     Dim wb As New Bitmap(My.Resources.wb)
     Dim wq As New Bitmap(My.Resources.wq)
     Dim wk As New Bitmap(My.Resources.wk)
-
+    'Black pieces
     Dim bp As New Bitmap(My.Resources.bp)
     Dim br As New Bitmap(My.Resources.br)
     Dim bn As New Bitmap(My.Resources.bn)
     Dim bb As New Bitmap(My.Resources.bb)
     Dim bq As New Bitmap(My.Resources.bq)
     Dim bk As New Bitmap(My.Resources.bk)
-
+    'Chessboard
     Dim bboard As New Bitmap(My.Resources.board90)
     Dim bHaut As New Bitmap(My.Resources.bHaut)
     Dim bCote As New Bitmap(My.Resources.bcote)
-
+    'symbole
     Dim greenCircle As New Bitmap(My.Resources.vert)
     Dim redCircle As New Bitmap(My.Resources.rouge)
     Dim blueCircle As New Bitmap(My.Resources.bleu)
@@ -74,6 +75,7 @@ Public Class frmMain
 
     'graphic sur la picturebox
     'je ne comprends pas trop comment cela fonctionne vraiment
+    'programmation par copier coller de bout de code ;-)
     Dim backBuffer As New Bitmap(My.Resources.board90)
     Dim g As Graphics = Graphics.FromImage(backBuffer)
 
@@ -315,6 +317,7 @@ Public Class frmMain
 
 #End Region
 
+    'initialise les variables contenu dans le PGN
     Private Sub initInfoPgn()
         With InfoGame
             .Black = "BLACK Player"
@@ -331,6 +334,7 @@ Public Class frmMain
         End With
     End Sub
 
+    'taille initiale de l'échiquier LICHESS
     Public Sub initSizeEchiquier()
         Dim tmpPt As Point
         With echiquier
@@ -892,6 +896,7 @@ err:
         Return tempo
     End Function
 
+    'Pour afficher graphiquement la différence de matériel
     Public Sub DiffMat(ByRef MatBlancs As String, ByRef MatNoirs As String)
         Dim tempoB As Byte
         Dim TempoN As Byte
@@ -996,7 +1001,6 @@ err:
         Return (Join(LesColonnes, "."))
 
 
-
     End Function
 
     'etteint manuellement une ligne
@@ -1016,8 +1020,6 @@ err:
         LesColonnes(colonne - 1) = LesColonnes(colonne - 1) - Math.Pow(2, (ligne) - 1)
 
         Return (Join(LesColonnes, "."))
-
-
 
     End Function
 
@@ -1058,7 +1060,7 @@ err:
     End Sub
 
 
-
+    'trace les graphiques sur les cases qui s'allument et qui s'eteingnent 
     Public Sub DrawCase()
         Dim sqOn As String
         Dim sqOff As String
@@ -1078,6 +1080,7 @@ err:
 
 
     'si un FEN existe sur la ligne sélectionnée de lvREC appelle l'affichage
+    'permet d'afficher la posisition lors d'un changement de ligne
     Private Sub lvRec_ItemSelectionChanged(ByVal sender As Object, ByVal e As System.Windows.Forms.ListViewItemSelectionChangedEventArgs) Handles lvRec.ItemSelectionChanged
         Dim aFen As String
         If e.IsSelected Then
@@ -1190,12 +1193,7 @@ err:
 
                         If lvRec.Items(idep + i).SubItems(lv_rec).Text = LeCoup(0) Then 'si la signature correspond
 
-
-
                             If lvRec.Items(idep + i).ForeColor <> Color.Red Then 'si la ligne n'a pas été rejeté
-
-
-
 
                                 'ET SI LA CASE DE DEPART c EST ETEINTE ET LA CASE D'ARRIVEE C'EST ALLUMEE DEPUIS LE DERNIER COUP
                                 If CestEteint(LeCoup(1).Substring(0, 2), idep, idep + i) And CestAllume(LeCoup(1).Substring(2, 2), idep, idep + i) Then
@@ -1259,8 +1257,6 @@ err:
 
         LesRecs = ThePOS.GetAllRecs()  'récupère les signatures possibles forme : 195.195...195 a1h8|195.195...195 a1h8
 
-
-
         RecPossibles = LesRecs.Split("|") 'sépare le rec
 
         For c = 0 To RecPossibles.Count - 1 'pour chaque signature possible
@@ -1282,9 +1278,7 @@ err:
             Next
         Next
 
-
         Return 255
-
 
     End Function
 
@@ -1350,7 +1344,7 @@ err:
     End Function
 
     'renvoie la dernière ligne de couleur verte
-    Private Function CancelLastGreenLine(Optional ByVal Nbligne As Byte = 1) As Integer
+    Private Sub CancelLastGreenLine(Optional ByVal Nbligne As Byte = 1)
         Dim findgreen As Byte = 0
         Dim i As Integer
         Dim LastGreenLine As UInteger
@@ -1373,16 +1367,15 @@ err:
             lvRec.Items(i).SubItems(lv_Move).Text = ""
         Next
 
+    End Sub
 
-    End Function
-
-    Private Function CancelAllMoves()
+    Private Sub CancelAllMoves()
         For i = 2 To lvRec.Items.Count - 1
             lvRec.Items(i).ForeColor = Color.White
             lvRec.Items(i).SubItems(lv_FEN).Text = ""
             lvRec.Items(i).SubItems(lv_Move).Text = ""
         Next
-    End Function
+    End Sub
 
 
     Private Function FindNextMove() As Boolean
@@ -1717,18 +1710,11 @@ err:
     End Function
 
 
-
-
-
-
     Private Sub sslbl1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles sslbl1.Click
         FindNextMove()
     End Sub
 
-
-
-
-
+    'Ouvre un fichier de signature et le place dans la listview
     Private Sub OuvreFichier()
         Dim nomfichier As String = ""
 
@@ -1750,8 +1736,6 @@ err:
 
         Dim RecTempo() As String
         Dim RecordsInFile As String
-
-
 
         RecordsInFile = My.Computer.FileSystem.ReadAllText(nomfichier)
 
@@ -1852,7 +1836,6 @@ err:
                 If NewLine = "195.195.195.195.195.195.195.195" Then
                     If j < 50 Then
                         AddFirstLine()
-
                         i = 0
                     End If
 
@@ -1863,8 +1846,6 @@ err:
                 i = i + 1
 
             End If
-
-
 
         End While
         '___________________________________________________________________________________________________________
@@ -1884,8 +1865,6 @@ ErrorHandler:
 
     Private Sub menuOuvrir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuOuvrir.Click
         OuvreFichier()
-
-
     End Sub
 
 
@@ -2657,7 +2636,7 @@ err:
 
 
 
-   
+
 
 
 
