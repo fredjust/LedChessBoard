@@ -1,7 +1,7 @@
 ﻿Public Class frmPgnInfo
 
 
-    Private Function rbCheck()
+    Private Sub rbCheck()
         Select Case InfoGame.Result
             Case "1-0"
                 rbWhiteWin.Checked = True
@@ -12,27 +12,27 @@
             Case "*"
                 rbNoResult.Checked = True
         End Select
-    End Function
+    End Sub
 
 
     Private Function txtResult() As String
         If rbBlackWin.Checked Then
-            txtResult = "0-1"
+            Return "0-1"
         End If
         If rbWhiteWin.Checked Then
-            txtResult = "1-0"
+            Return "1-0"
         End If
         If rbDrawGame.Checked Then
-            txtResult = "1/2-1/2"
+            Return "1/2-1/2"
         End If
         If rbNoResult.Checked Then
-            txtResult = "*"
+            Return "*"
         End If
+        Return "*"
     End Function
 
     Private Function strTimeControl() As String
-        Dim nbMin As Integer
-        Dim nbSec As Integer
+      
         Dim strMin As String = ""
         Dim strSec As String = ""
 
@@ -49,7 +49,7 @@
     End Function
 
     Private Sub cmdOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOK.Click
-        Dim nbMin As Integer
+
         With InfoGame
             .Black = txtBlack.Text
             .BlackElo = txtEloBlack.Text

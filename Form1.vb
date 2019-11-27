@@ -43,25 +43,24 @@ Public Class frmMain
 
 
 #Region "Les Images PNG"
-    'White pieces
     Dim wp As New Bitmap(My.Resources.wp)
     Dim wr As New Bitmap(My.Resources.wr)
     Dim wn As New Bitmap(My.Resources.wn)
     Dim wb As New Bitmap(My.Resources.wb)
     Dim wq As New Bitmap(My.Resources.wq)
     Dim wk As New Bitmap(My.Resources.wk)
-    'Black pieces
+
     Dim bp As New Bitmap(My.Resources.bp)
     Dim br As New Bitmap(My.Resources.br)
     Dim bn As New Bitmap(My.Resources.bn)
     Dim bb As New Bitmap(My.Resources.bb)
     Dim bq As New Bitmap(My.Resources.bq)
     Dim bk As New Bitmap(My.Resources.bk)
-    'Chessboard
+
     Dim bboard As New Bitmap(My.Resources.board90)
     Dim bHaut As New Bitmap(My.Resources.bHaut)
     Dim bCote As New Bitmap(My.Resources.bcote)
-    'symbole
+
     Dim greenCircle As New Bitmap(My.Resources.vert)
     Dim redCircle As New Bitmap(My.Resources.rouge)
     Dim blueCircle As New Bitmap(My.Resources.bleu)
@@ -75,7 +74,6 @@ Public Class frmMain
 
     'graphic sur la picturebox
     'je ne comprends pas trop comment cela fonctionne vraiment
-    'programmation par copier coller de bout de code ;-)
     Dim backBuffer As New Bitmap(My.Resources.board90)
     Dim g As Graphics = Graphics.FromImage(backBuffer)
 
@@ -84,6 +82,9 @@ Public Class frmMain
     Dim sqTo As String
     Dim MoveByClic As Boolean
     Dim EffaceNoir As Boolean = False   'une rustine de dernière minute
+    Dim ColorSquareWhite As Color
+    Dim ColorSquareBlack As Color
+
     Public ThePOS As ObjFenMoves
 
     Public Const lv_num As Byte = 0
@@ -117,7 +118,6 @@ Public Class frmMain
                 Return wq
             Case "K"
                 Return wk
-
             Case "p"
                 Return bp
             Case "r"
@@ -130,7 +130,6 @@ Public Class frmMain
                 Return bq
             Case "k"
                 Return bk
-
             Case "1"
                 Return redCircle
             Case "2"
@@ -139,9 +138,8 @@ Public Class frmMain
                 Return blueCircle
             Case "4"
                 Return GreenCross
-
-
         End Select
+        Return Nothing
     End Function
 
     'retourne la position X de la case
@@ -265,8 +263,7 @@ Public Class frmMain
         Dim pNoirs As String = ""
 
         DiffMat(pBlancs, pNoirs)
-        lblBlancs.Text = ToBlackStr(pNoirs)
-        lblNoirs.Text = pBlancs
+       
 
     End Sub
 
@@ -317,7 +314,6 @@ Public Class frmMain
 
 #End Region
 
-    'initialise les variables contenu dans le PGN
     Private Sub initInfoPgn()
         With InfoGame
             .Black = "BLACK Player"
@@ -334,7 +330,6 @@ Public Class frmMain
         End With
     End Sub
 
-    'taille initiale de l'échiquier LICHESS
     Public Sub initSizeEchiquier()
         Dim tmpPt As Point
         With echiquier
@@ -343,6 +338,9 @@ Public Class frmMain
             .X = 660 '587 ' 660
             .Y = 149 ' 164 ' 149
         End With
+
+        ColorSquareWhite = Color.FromArgb(255, 205, 210, 106)
+        ColorSquareBlack = Color.FromArgb(255, 170, 162, 58)
 
         IniFile = Application.StartupPath & "\Chessboard.ini"
         If Cls_Ini.INISectionExist(IniFile, "liscreen") Then
@@ -358,17 +356,9 @@ Public Class frmMain
 
     Private Sub Form1_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         DrawPiece()
-        lblTimeNoirs.Top = lvMoves.Top
-        lblTimeNoirs.Left = lvMoves.Width - 20
+     
 
-        lblTimeBlancs.Top = lvMoves.Height - lblTimeBlancs.Height
-        lblTimeBlancs.Left = lvMoves.Width - 20
-
-        lblBlancs.Left = lvMoves.Width + 5
-        lblNoirs.Left = lvMoves.Width + 5
-
-        lblNoirs.Top = lblTimeNoirs.Top + lblTimeNoirs.Height
-        lblBlancs.Top = lblTimeBlancs.Top - lblBlancs.Height
+     
     End Sub
 
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -435,17 +425,7 @@ Public Class frmMain
                 Me.FormBorderStyle = Windows.Forms.FormBorderStyle.Sizable
         End Select
 
-        lblTimeNoirs.Top = lvMoves.Top
-        lblTimeNoirs.Left = lvMoves.Width - 20
-
-        lblTimeBlancs.Top = lvMoves.Height - lblTimeBlancs.Height
-        lblTimeBlancs.Left = lvMoves.Width - 20
-
-        lblBlancs.Left = lvMoves.Width + 5
-        lblNoirs.Left = lvMoves.Width + 5
-
-        lblNoirs.Top = lblTimeNoirs.Top + lblTimeNoirs.Height
-        lblBlancs.Top = lblTimeBlancs.Top - lblBlancs.Height
+      
 
 
     End Sub
@@ -755,24 +735,20 @@ err:
 
             TempsNoirs -= TempsCoup
             TempsNoirs += Increment
-            lblTimeBlancs.BackColor = Color.Silver
-            lblTimeNoirs.BackColor = Color.White
+         
         Else
             TempsBlancs -= TempsCoup
             TempsBlancs += Increment
-            lblTimeBlancs.BackColor = Color.White
-            lblTimeNoirs.BackColor = Color.Silver
+          
 
         End If
 
         If lvRec.Items.Count - FindLastGreenLine() > 30 Then
-            lblTimeBlancs.BackColor = Color.LightCoral
-            lblTimeNoirs.BackColor = Color.LightCoral
+           
         End If
 
 
-        lblTimeNoirs.Text = formatHMS(TempsNoirs, False)
-        lblTimeBlancs.Text = formatHMS(TempsBlancs, False)
+     
 
         If lvMoves.Items.Count > 10 Then lvMoves.Items(lvMoves.Items.Count - 1).EnsureVisible()
 
@@ -896,7 +872,6 @@ err:
         Return tempo
     End Function
 
-    'Pour afficher graphiquement la différence de matériel
     Public Sub DiffMat(ByRef MatBlancs As String, ByRef MatNoirs As String)
         Dim tempoB As Byte
         Dim TempoN As Byte
@@ -1001,6 +976,7 @@ err:
         Return (Join(LesColonnes, "."))
 
 
+
     End Function
 
     'etteint manuellement une ligne
@@ -1020,6 +996,8 @@ err:
         LesColonnes(colonne - 1) = LesColonnes(colonne - 1) - Math.Pow(2, (ligne) - 1)
 
         Return (Join(LesColonnes, "."))
+
+
 
     End Function
 
@@ -1060,7 +1038,7 @@ err:
     End Sub
 
 
-    'trace les graphiques sur les cases qui s'allument et qui s'eteingnent 
+
     Public Sub DrawCase()
         Dim sqOn As String
         Dim sqOff As String
@@ -1080,7 +1058,6 @@ err:
 
 
     'si un FEN existe sur la ligne sélectionnée de lvREC appelle l'affichage
-    'permet d'afficher la posisition lors d'un changement de ligne
     Private Sub lvRec_ItemSelectionChanged(ByVal sender As Object, ByVal e As System.Windows.Forms.ListViewItemSelectionChangedEventArgs) Handles lvRec.ItemSelectionChanged
         Dim aFen As String
         If e.IsSelected Then
@@ -1193,7 +1170,12 @@ err:
 
                         If lvRec.Items(idep + i).SubItems(lv_rec).Text = LeCoup(0) Then 'si la signature correspond
 
+
+
                             If lvRec.Items(idep + i).ForeColor <> Color.Red Then 'si la ligne n'a pas été rejeté
+
+
+
 
                                 'ET SI LA CASE DE DEPART c EST ETEINTE ET LA CASE D'ARRIVEE C'EST ALLUMEE DEPUIS LE DERNIER COUP
                                 If CestEteint(LeCoup(1).Substring(0, 2), idep, idep + i) And CestAllume(LeCoup(1).Substring(2, 2), idep, idep + i) Then
@@ -1257,6 +1239,8 @@ err:
 
         LesRecs = ThePOS.GetAllRecs()  'récupère les signatures possibles forme : 195.195...195 a1h8|195.195...195 a1h8
 
+
+
         RecPossibles = LesRecs.Split("|") 'sépare le rec
 
         For c = 0 To RecPossibles.Count - 1 'pour chaque signature possible
@@ -1278,7 +1262,9 @@ err:
             Next
         Next
 
+
         Return 255
+
 
     End Function
 
@@ -1367,6 +1353,7 @@ err:
             lvRec.Items(i).SubItems(lv_Move).Text = ""
         Next
 
+
     End Sub
 
     Private Sub CancelAllMoves()
@@ -1394,6 +1381,7 @@ err:
 
         ThePOS.onLive = False
         leboncoup = ""
+        lecoup = ""
         i = lvRec.Items.Count - 1 'nombre d'élément de la LV
 
 
@@ -1506,7 +1494,7 @@ err:
             For colonne = 1 To 8
                 'si la case est verte claire
                 If myBmp.GetPixel((echiquier.Width \ 8) * (colonne - 1) + 5, (echiquier.Width \ 8) * (8 - ligne) + 5) = _
-                    Color.FromArgb(255, 205, 210, 106) Then
+                    ColorSquareWhite Then
                     'si la case est verte  claire au centre
                     'If myBmp.GetPixel((echiquier.Width \ 8) * (colonne - 1) + echiquier.Width / 16, _
                     '(echiquier.Width \ 8) * (8 - ligne) + echiquier.Width / 16) = Color.FromArgb(255, 205, 210, 106) Then
@@ -1524,7 +1512,7 @@ err:
                 End If
                 'si la case est verte foncé
                 If myBmp.GetPixel((echiquier.Width \ 8) * (colonne - 1) + 5, (echiquier.Width \ 8) * (8 - ligne) + 5) = _
-                    Color.FromArgb(255, 170, 162, 58) Then
+                    ColorSquareBlack Then
                     'si la case est verte foncé au centre
                     'If myBmp.GetPixel((echiquier.Width \ 8) * (colonne - 1) + echiquier.Width / 16, _
                     '(echiquier.Width \ 8) * (8 - ligne) + echiquier.Width / 16) = Color.FromArgb(255, 170, 162, 58) Then
@@ -1592,17 +1580,17 @@ err:
 
             Cursor.Position = ToClic
             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-            System.Threading.Thread.Sleep(50)
+            System.Threading.Thread.Sleep(237)
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
 
-            System.Threading.Thread.Sleep(100)
+            System.Threading.Thread.Sleep(356)
 
             ToClic.X = echiquier.X + echiquier.Width \ 16 + (echiquier.Width \ 8) * (c2 - 1)
             ToClic.Y = echiquier.Y + echiquier.Width \ 16 + (echiquier.Width \ 8) * (8 - l2)
 
             Cursor.Position = ToClic
             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-            System.Threading.Thread.Sleep(50)
+            System.Threading.Thread.Sleep(247)
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
 
             FindNewCase(New_sq1, New_sq2)
@@ -1710,11 +1698,18 @@ err:
     End Function
 
 
+
+
+
+
     Private Sub sslbl1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles sslbl1.Click
         FindNextMove()
     End Sub
 
-    'Ouvre un fichier de signature et le place dans la listview
+
+
+
+
     Private Sub OuvreFichier()
         Dim nomfichier As String = ""
 
@@ -1736,6 +1731,8 @@ err:
 
         Dim RecTempo() As String
         Dim RecordsInFile As String
+
+
 
         RecordsInFile = My.Computer.FileSystem.ReadAllText(nomfichier)
 
@@ -1836,6 +1833,7 @@ err:
                 If NewLine = "195.195.195.195.195.195.195.195" Then
                     If j < 50 Then
                         AddFirstLine()
+
                         i = 0
                     End If
 
@@ -1846,6 +1844,8 @@ err:
                 i = i + 1
 
             End If
+
+
 
         End While
         '___________________________________________________________________________________________________________
@@ -1865,6 +1865,8 @@ ErrorHandler:
 
     Private Sub menuOuvrir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuOuvrir.Click
         OuvreFichier()
+
+
     End Sub
 
 
@@ -2083,7 +2085,7 @@ ErrorHandler:
         'End If
 
 
-        If aRec = "" Then Exit Function
+        If aRec = "" Then Return ""
 
         theCol = aRec.Split(".") 'sépare les différents bytes
         strPos = ""
@@ -2193,6 +2195,8 @@ ErrorHandler:
                 Return strPos
             End If
         End If
+        'normalement on arrive jamais ici
+        Return ""
     End Function
 
     Private Sub AddRec(ByVal aRec As String)
@@ -2358,6 +2362,7 @@ err:
             menuSerialInit.Enabled = False
             menuSerialClose.Enabled = True
             TimerCoup.Enabled = True
+            CheckMoveToolStripMenuItem.Enabled = True
         Catch ex As Exception
             MsgBox("Erreur lors de l'ouverture du port")
         End Try
@@ -2416,6 +2421,7 @@ err:
         menuSerialInit.Enabled = True
         AttendreCoup = 0
         TimerCoup.Enabled = False
+        CheckMoveToolStripMenuItem.Enabled = True
     End Sub
 
     Private Sub SauvegarderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SauvegarderToolStripMenuItem.Click
@@ -2426,7 +2432,7 @@ err:
         Try 'Instance d'essaie qui retournera une erreur en cas de problème
 
             Dim request As FtpWebRequest = DirectCast(WebRequest.Create("ftp://ftp.diagonaletv.com/live.pgn"), System.Net.FtpWebRequest) 'On renseigne la futur destination du fichier à envoyer
-            request.Credentials = New NetworkCredential("userName", "Pass") 'On rentre les identifiant et mot de passe
+            request.Credentials = New NetworkCredential("pgn4web@glibre.org", "pgn4web") 'On rentre les identifiant et mot de passe
 
             request.Method = System.Net.WebRequestMethods.Ftp.UploadFile 'On indique qu'on veut upload un fichier
 
@@ -2514,6 +2520,8 @@ err:
         End While
 
         My.Computer.FileSystem.WriteAllText("c:\GAME\game" & NumFile.ToString & ".pgn", strAllMoves, True)
+
+        MsgBox("Saved : " & "c:\GAME\game" & NumFile.ToString & ".pgn")
 
     End Sub
 
@@ -2636,7 +2644,7 @@ err:
 
 
 
-
+   
 
 
 
@@ -2703,4 +2711,18 @@ err:
         CheckBoard()
     End Sub
 
+    Private Sub ChesscomToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChesscomToolStripMenuItem.Click
+        ColorSquareWhite = Color.FromArgb(255, 246, 246, 130)
+        ColorSquareBlack = Color.FromArgb(255, 186, 202, 68)
+        LichessToolStripMenuItem.Checked = False
+        ChesscomToolStripMenuItem.Checked = True
+
+    End Sub
+
+    Private Sub LichessToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LichessToolStripMenuItem.Click
+        ColorSquareWhite = Color.FromArgb(255, 205, 210, 106)
+        ColorSquareBlack = Color.FromArgb(255, 170, 162, 58)
+        LichessToolStripMenuItem.Checked = True
+        ChesscomToolStripMenuItem.Checked = False
+    End Sub
 End Class
